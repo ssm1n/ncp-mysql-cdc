@@ -11,7 +11,7 @@
 
     "database.server.id": "5400",
     "database.server.name": "cdc-sdb",
-    "database.include.list": "",
+    "database.include.list": "customers",
 
     "schema.history.internal.kafka.bootstrap.servers": "kafka-1:19092,kafka-2:19092,kafka-3:19092",
     "schema.history.internal.kafka.topic": "schema-changes.testdb",
@@ -20,5 +20,4 @@
     "include.schema.changes": "true"
   }
 }
-
 
