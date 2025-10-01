@@ -93,7 +93,7 @@ services:
     image: confluentinc/cp-kafka-connect:7.4.1
     container_name: connect
     env_file:
-	- .env
+      - .env
     depends_on:
       - kafka-1
       - kafka-2
@@ -123,8 +123,12 @@ services:
       CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 3
       CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 3
 
+      CONNECT_CONFIG_PROVIDERS: envVarProvider
+      CONNECT_CONFIG_PROVIDERS_ENVVARPROVIDER_CLASS: org.apache.kafka.common.config.provider.EnvVarConfigprovider
+      CONNECT_CONFIG_PROVIDERS_ENVVARPROVIDER_PARAM_ALLOWLIST_PATTERN: ^MYSQL_.*
+
       # 커넥터 플러그인 위치
-      CONNECT_PLUGIN_PATH: /usr/share/java, /etc/kafka-connect/plugins
+      CONNECT_PLUGIN_PATH: /usr/share/java,/etc/kafka-connect/plugins
 
     volumes:
       - ./plugins:/etc/kafka-connect/plugins

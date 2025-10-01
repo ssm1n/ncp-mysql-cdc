@@ -19,8 +19,8 @@ You can reach us here:
 The following software is required to work with the Debezium codebase and build it locally:
 
 * [Git 2.2.1](https://git-scm.com) or later
-* JDK 21 or later, e.g. [OpenJDK](http://openjdk.java.net/projects/jdk/)
-* [Apache Maven](https://maven.apache.org/index.html) 3.9.8
+* JDK 11 or later, e.g. [OpenJDK](http://openjdk.java.net/projects/jdk/)
+* [Apache Maven](https://maven.apache.org/index.html) 3.8.4
 * [Docker Engine](https://docs.docker.com/engine/install/) or [Docker Desktop](https://docs.docker.com/desktop/) 1.9 or later
 
 See the links above for installation instructions on your platform. You can verify the versions are installed and running:
@@ -106,8 +106,6 @@ When your testing is complete, you can stop the Docker container by running:
 or the following Docker commands:
 
     $ docker stop database; docker rm database
-
-See the [Configure your Docker environment](README.md#configure-your-docker-environment) section in the main README for more information about how to configure your Docker environment for use with Debezium.
 
 ## Making changes
 
