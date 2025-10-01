@@ -4,10 +4,10 @@
     "connector.class": "io.debezium.connector.mysql.MySqlConnector",
     "topic.prefix": "mysqlserver1",
 
-    "database.hostname": "${envVarProvider:MYSQL_HOST}",
-    "database.port": "${envVarProvider:MYSQL_PORT}",
-    "database.user": "${envVarProvider:MYSQL_USER}",
-    "database.password": "${envVarProvider:MYSQL_PASSWORD}",
+    "database.hostname": "${env:MYSQL_HOST}",
+    "database.port": "${env:MYSQL_PORT}",
+    "database.user": "${env:MYSQL_USER}",
+    "database.password": "${env:MYSQL_PASSWORD}",
 
     "database.server.id": "5400",
     "database.server.name": "cdc-sdb",
