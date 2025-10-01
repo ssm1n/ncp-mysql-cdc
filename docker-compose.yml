@@ -92,6 +92,8 @@ services:
   connect:
     image: confluentinc/cp-kafka-connect:7.4.1
     container_name: connect
+    env_file:
+	- .env
     depends_on:
       - kafka-1
       - kafka-2
