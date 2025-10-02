@@ -22,6 +22,7 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 2
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_LOG_DIRS: /var/lib/kafka/data
+      KAFKA_DELETE_TOPIC_ENABLE: "true"
     volumes:
       - ./data/kafka-1:/var/lib/kafka/data
 
@@ -46,6 +47,7 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 3
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 2
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_DELETE_TOPIC_ENABLE: "true"
     volumes:
       - ./data/kafka-2:/var/lib/kafka/data
 
@@ -70,6 +72,7 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 3
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 2
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_DELETE_TOPIC_ENABLE: "true"
     volumes:
       - ./data/kafka-3:/var/lib/kafka/data
 
@@ -108,9 +111,9 @@ services:
       CONNECT_GROUP_ID: connect-cluster
 
       # 내부 메타데이터 토픽 지정 (명시적으로 수동 생성할 예정)
-      CONNECT_CONFIG_STORAGE_TOPIC: connect-configs
-      CONNECT_OFFSET_STORAGE_TOPIC: connect-offsets
-      CONNECT_STATUS_STORAGE_TOPIC: connect-status
+      CONNECT_CONFIG_STORAGE_TOPIC: connect-configs-v2
+      CONNECT_OFFSET_STORAGE_TOPIC: connect-offsets-v2
+      CONNECT_STATUS_STORAGE_TOPIC: connect-status-v2
 
       # AVRO 직렬화
       CONNECT_KEY_CONVERTER: io.confluent.connect.avro.AvroConverter
