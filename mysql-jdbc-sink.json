@@ -1,0 +1,26 @@
+{
+  "name": "mysql-jdbc-sink",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+    "tasks.max": "1",
+
+    "topics": "mysqlserver1.cdc-sdb.customers",
+
+    "connection.url": "jdbc:mysql://${env:SINK_MYSQL_HOST}:${env:SINK_MYSQL_PORT}/${env:SINK_MYSQL_DB}",
+    "connection.user": "${env:SINK_MYSQL_USER}",
+    "connection.password": "${env:SINK_MYSQL_PASSWORD}",
+
+    "auto.create": "true",
+    "auto.evolve": "true",
+
+    "insert.mode": "upsert",
+    "pk.mode": "record_key",
+    "pk.fields": "id",
+
+    "key.converter": "io.confluent.connect.avro.AvroConverter",
+    "value.converter": "io.confluent.connect.avro.AvroConverter",
+    "key.converter.schema.registry.url": "http://schema-registry:8081",
+    "value.converter.schema.registry.url": "http://schema-registry:8081"
+  }
+}
+
