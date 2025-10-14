@@ -18,7 +18,12 @@
     "schema.history.internal.kafka.topic": "schema-changes.mysqlserver1",
 
     "heartbeat.interval.ms": 30000,
-    "include.schema.changes": "true"
+    "include.schema.changes": "true",
+    
+    "transforms": "unwrap",
+    "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+    "transforms.unwrap.drop.tombstones": "true",
+    "transforms.unwrap.delete.handling.mode": "rewrite"
   }
 }
 

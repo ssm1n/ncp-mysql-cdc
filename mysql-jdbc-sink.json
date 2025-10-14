@@ -14,7 +14,7 @@
     "auto.evolve": "true",
    
     "insert.mode": "upsert",
-    "pk.mode": "record_value",
+    "pk.mode": "record_key",
     "pk.fields": "id",
 
     "key.converter": "io.confluent.connect.avro.AvroConverter",
@@ -22,11 +22,13 @@
     "key.converter.schema.registry.url": "http://schema-registry:8081",
     "value.converter.schema.registry.url": "http://schema-registry:8081",
 
-    "transforms": "unwrap",
     "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
     "transforms.unwrap.drop.tombstones": "false",
     "transforms.unwrap.delete.handling.mode": "none",
-    "table.name.format": "test-tdb.${topic}"
+    "table.name.format": "test-tdb.${topic}",
+    "delete.enabled": "true",   
+    "transforms.unwrap.drop.tombstones": "true", 
+    "transforms.unwrap.delete.handling.mode": "rewrite"
 
   }
 }
