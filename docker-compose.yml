@@ -127,11 +127,17 @@ services:
       CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 3
 
       CONNECT_CONFIG_PROVIDERS: env
-      CONNECT_CONFIG_PROVIDERS_ENV_CLASS: org.apache.kafka.common.config.provider.EnvVarConfigProvider
+      CONNECT_CONFIG_PROVIDERS_ENV_CLASS: org.apache.kafka.common.config.provider.EnvConfigProvider
       CONNECT_CONFIG_PROVIDERS_ENV_PARAM_ALLOWLIST_PATTERN: ^MYSQL_.*
 
       # 커넥터 플러그인 위치
       CONNECT_PLUGIN_PATH: /usr/share/java,/etc/kafka-connect/plugins
+
+      MYSQL_SINK_HOST: ${MYSQL_SINK_HOST}
+      MYSQL_SINK_PORT: ${MYSQL_SINK_PORT}
+      MYSQL_SINK_USER: ${MYSQL_SINK_USER}
+      MYSQL_SINK_PASSWORD: ${MYSQL_SINK_PASSWORD}
+      MYSQL_SINK_DB: ${MYSQL_SINK_DB}
 
     volumes:
       - ./plugins:/etc/kafka-connect/plugins

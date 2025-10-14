@@ -6,21 +6,26 @@
 
     "topics": "mysqlserver1.cdc-sdb.customers",
 
-    "connection.url": "jdbc:mysql://${env:SINK_MYSQL_HOST}:${env:SINK_MYSQL_PORT}/${env:SINK_MYSQL_DB}",
-    "connection.user": "${env:SINK_MYSQL_USER}",
-    "connection.password": "${env:SINK_MYSQL_PASSWORD}",
+    "connection.url": "jdbc:mysql://${env:MYSQL_SINK_HOST}:${env:MYSQL_SINK_PORT}/${env:MYSQL_SINK_DB}",
+    "connection.user": "${env:MYSQL_SINK_USER}",
+    "connection.password": "${env:MYSQL_SINK_PASSWORD}",
 
     "auto.create": "true",
     "auto.evolve": "true",
 
-    "insert.mode": "upsert",
-    "pk.mode": "record_key",
-    "pk.fields": "id",
+    "insert.mode": "insert",
+    "pk.mode": "none",
 
     "key.converter": "io.confluent.connect.avro.AvroConverter",
     "value.converter": "io.confluent.connect.avro.AvroConverter",
     "key.converter.schema.registry.url": "http://schema-registry:8081",
-    "value.converter.schema.registry.url": "http://schema-registry:8081"
+    "value.converter.schema.registry.url": "http://schema-registry:8081",
+
+    "transforms": "unwrap",
+    "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+    "transforms.unwrap.drop.tombstones": "false",
+    "transforms.unwrap.delete.handling.mode": "none"
+
   }
 }
 
