@@ -91,6 +91,8 @@ services:
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka-1:19092,PLAINTEXT://kafka-2:19092,PLAINTEXT://kafka-3:19092
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
+    volumes:
+      - ./data/schema-registry:/var/lib/schema-registry
 
   connect:
     image: confluentinc/cp-kafka-connect:7.5.3

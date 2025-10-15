@@ -10,9 +10,9 @@
     "connection.user": "nb61276",
     "connection.password": "ic2281**00",
 
-    "auto.create": "true",
-    "auto.evolve": "true",
-   
+    "auto.create": "false",
+    "auto.evolve": "false",
+
     "insert.mode": "upsert",
     "pk.mode": "record_key",
     "pk.fields": "id",
@@ -23,13 +23,15 @@
     "value.converter.schema.registry.url": "http://schema-registry:8081",
 
     "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
-    "transforms.unwrap.drop.tombstones": "false",
+    "transforms.unwrap.drop.tombstones": "true",
     "transforms.unwrap.delete.handling.mode": "none",
     "table.name.format": "test-tdb.${topic}",
-    "delete.enabled": "true",   
-    "transforms.unwrap.drop.tombstones": "true", 
-    "transforms.unwrap.delete.handling.mode": "rewrite"
-
+    "delete.enabled": "true",
+    "transforms.unwrap.drop.tombstones": "true",
+    "transforms.unwrap.delete.handling.mode": "none",
+    "transforms.drop.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
+    "transforms.drop.blacklist": "source,ts_ms,op,transaction,__deleted",
+    "transforms": "unwrap,drop"
   }
 }
 
