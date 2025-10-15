@@ -22,16 +22,15 @@
     "key.converter.schema.registry.url": "http://schema-registry:8081",
     "value.converter.schema.registry.url": "http://schema-registry:8081",
 
+    "transforms": "unwrap,drop",
     "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
-    "transforms.unwrap.drop.tombstones": "true",
-    "transforms.unwrap.delete.handling.mode": "none",
+    "transforms.unwrap.delete.handling.mode": "rewrite",
     "table.name.format": "test-tdb.${topic}",
     "delete.enabled": "true",
-    "transforms.unwrap.drop.tombstones": "true",
-    "transforms.unwrap.delete.handling.mode": "none",
+    "transforms.unwrap.drop.tombstones": "false",
+
     "transforms.drop.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
-    "transforms.drop.blacklist": "source,ts_ms,op,transaction,__deleted",
-    "transforms": "unwrap,drop"
+    "transforms.drop.blacklist": "source,ts_ms,op,transaction,__deleted"
   }
 }
 
