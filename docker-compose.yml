@@ -23,6 +23,7 @@ services:
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_LOG_DIRS: /var/lib/kafka/data
       KAFKA_DELETE_TOPIC_ENABLE: "true"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false" 
     volumes:
       - ./data/kafka-1:/var/lib/kafka/data
 
@@ -48,6 +49,7 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 2
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_DELETE_TOPIC_ENABLE: "true"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false" 
     volumes:
       - ./data/kafka-2:/var/lib/kafka/data
 
@@ -73,6 +75,7 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 2
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_DELETE_TOPIC_ENABLE: "true"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false" 
     volumes:
       - ./data/kafka-3:/var/lib/kafka/data
 
@@ -134,6 +137,11 @@ services:
 
       # 커넥터 플러그인 위치
       CONNECT_PLUGIN_PATH: /usr/share/java,/etc/kafka-connect/plugins
+
+      # 자동 복구 설정
+      CONNECT_ERRORS_RETRY_TIMEOUT: -1
+      CONNECT_RETRIES: 2147483647
+      CONNECT_RETRY_BACKOFF_MS: 10000
 
     volumes:
       - ./plugins:/etc/kafka-connect/plugins
