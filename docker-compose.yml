@@ -97,9 +97,9 @@ services:
     volumes:
       - ./data/schema-registry:/var/lib/schema-registry
 
-  connect:
+  connect-1:
     image: confluentinc/cp-kafka-connect:7.5.3
-    container_name: connect
+    container_name: connect-1
     env_file:
       - .env
     depends_on:
@@ -112,21 +112,20 @@ services:
     environment:
       CONNECT_BOOTSTRAP_SERVERS: kafka-1:19092,kafka-2:19092,kafka-3:19092
       CONNECT_REST_PORT: 8083
-      CONNECT_REST_ADVERTISED_HOST_NAME: connect
+      CONNECT_REST_ADVERTISED_HOST_NAME: connect-1
+      CONNECT_REST_ADVERTISED_PORT: 8083
+      CONNECT_REST_ADVERTISED_LISTENER: http
       CONNECT_GROUP_ID: connect-cluster
 
-      # 내부 메타데이터 토픽 지정 (명시적으로 수동 생성할 예정)
       CONNECT_CONFIG_STORAGE_TOPIC: connect-configs-v2
       CONNECT_OFFSET_STORAGE_TOPIC: connect-offsets-v2
       CONNECT_STATUS_STORAGE_TOPIC: connect-status-v2
 
-      # AVRO 직렬화
       CONNECT_KEY_CONVERTER: io.confluent.connect.avro.AvroConverter
       CONNECT_VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
       CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: http://schema-registry:8081
       CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: http://schema-registry:8081
 
-      # 토픽 생성 시 복제/파티션 설정
       CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 3
       CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 3
       CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 3
@@ -135,10 +134,100 @@ services:
       CONNECT_CONFIG_PROVIDERS_ENV_CLASS: org.apache.kafka.common.config.provider.EnvVarConfigProvider
       CONNECT_CONFIG_PROVIDERS_ENV_PARAM_ALLOWLIST_PATTERN: ^MYSQL_.*
 
-      # 커넥터 플러그인 위치
       CONNECT_PLUGIN_PATH: /usr/share/java,/etc/kafka-connect/plugins
 
-      # 자동 복구 설정
+      CONNECT_ERRORS_RETRY_TIMEOUT: -1
+      CONNECT_RETRIES: 2147483647
+      CONNECT_RETRY_BACKOFF_MS: 10000
+
+    volumes:
+      - ./plugins:/etc/kafka-connect/plugins
+
+  connect-2:
+    image: confluentinc/cp-kafka-connect:7.5.3
+    container_name: connect-2
+    env_file:
+      - .env
+    depends_on:
+      - kafka-1
+      - kafka-2
+      - kafka-3
+      - schema-registry
+    ports:
+      - 8084:8083
+    environment:
+      CONNECT_BOOTSTRAP_SERVERS: kafka-1:19092,kafka-2:19092,kafka-3:19092
+      CONNECT_REST_PORT: 8083
+      CONNECT_REST_ADVERTISED_HOST_NAME: connect-2
+      CONNECT_REST_ADVERTISED_PORT: 8084
+      CONNECT_REST_ADVERTISED_LISTENER: http
+      CONNECT_GROUP_ID: connect-cluster
+
+      CONNECT_CONFIG_STORAGE_TOPIC: connect-configs-v2
+      CONNECT_OFFSET_STORAGE_TOPIC: connect-offsets-v2
+      CONNECT_STATUS_STORAGE_TOPIC: connect-status-v2
+
+      CONNECT_KEY_CONVERTER: io.confluent.connect.avro.AvroConverter
+      CONNECT_VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
+      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+
+      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 3
+      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 3
+      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 3
+
+      CONNECT_CONFIG_PROVIDERS: env
+      CONNECT_CONFIG_PROVIDERS_ENV_CLASS: org.apache.kafka.common.config.provider.EnvVarConfigProvider
+      CONNECT_CONFIG_PROVIDERS_ENV_PARAM_ALLOWLIST_PATTERN: ^MYSQL_.*
+
+      CONNECT_PLUGIN_PATH: /usr/share/java,/etc/kafka-connect/plugins
+
+      CONNECT_ERRORS_RETRY_TIMEOUT: -1
+      CONNECT_RETRIES: 2147483647
+      CONNECT_RETRY_BACKOFF_MS: 10000
+
+    volumes:
+      - ./plugins:/etc/kafka-connect/plugins
+
+  connect-3:
+    image: confluentinc/cp-kafka-connect:7.5.3
+    container_name: connect-3
+    env_file:
+      - .env
+    depends_on:
+      - kafka-1
+      - kafka-2
+      - kafka-3
+      - schema-registry
+    ports:
+      - 8085:8083
+    environment:
+      CONNECT_BOOTSTRAP_SERVERS: kafka-1:19092,kafka-2:19092,kafka-3:19092
+      CONNECT_REST_PORT: 8083
+      CONNECT_REST_ADVERTISED_HOST_NAME: connect-3
+      CONNECT_REST_ADVERTISED_PORT: 8085
+      CONNECT_REST_ADVERTISED_LISTENER: http
+      CONNECT_GROUP_ID: connect-cluster
+
+      CONNECT_CONFIG_STORAGE_TOPIC: connect-configs-v2
+      CONNECT_OFFSET_STORAGE_TOPIC: connect-offsets-v2
+      CONNECT_STATUS_STORAGE_TOPIC: connect-status-v2
+
+      CONNECT_KEY_CONVERTER: io.confluent.connect.avro.AvroConverter
+      CONNECT_VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
+      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+
+      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 3
+      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 3
+      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 3
+
+      CONNECT_CONFIG_PROVIDERS: env
+      CONNECT_CONFIG_PROVIDERS_ENV_CLASS: org.apache.kafka.common.config.provider.EnvVarConfigProvider
+      CONNECT_CONFIG_PROVIDERS_ENV_PARAM_ALLOWLIST_PATTERN: ^MYSQL_.*
+
+      CONNECT_PLUGIN_PATH: /usr/share/java,/etc/kafka-connect/plugins
+
       CONNECT_ERRORS_RETRY_TIMEOUT: -1
       CONNECT_RETRIES: 2147483647
       CONNECT_RETRY_BACKOFF_MS: 10000

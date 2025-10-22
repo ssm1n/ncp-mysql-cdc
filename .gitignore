@@ -1,5 +1,12 @@
+# Kafka runtime data
 data/
-.env
 *.log
-*.tmp
-*.pid
+*.index
+*.checkpoint
+*.properties
+*.meta
+*.json.gz
+
+# Secrets
+.env
+*.password
