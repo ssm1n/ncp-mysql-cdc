@@ -3,12 +3,12 @@
   "config": {
     "connector.class": "io.debezium.connector.mysql.MySqlConnector",
     "topic.prefix": "mysqlserver1",
+    "snapshot.mode": "initial",
 
     "database.hostname": "${env:MYSQL_HOST}",
     "database.port": "${env:MYSQL_PORT}",
     "database.user": "${env:MYSQL_USER}",
     "database.password": "${env:MYSQL_PASSWORD}",
-
     "database.server.id": "5400",
     "database.server.name": "mysqlserver1",
     "database.include.list": "cdc-sdb",
@@ -19,7 +19,7 @@
 
     "heartbeat.interval.ms": 30000,
     "include.schema.changes": "true",
-    
+
     "transforms": "unwrap",
     "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
     "transforms.unwrap.drop.tombstones": "false",
