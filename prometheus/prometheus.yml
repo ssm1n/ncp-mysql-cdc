@@ -16,16 +16,16 @@ scrape_configs:
 
   - job_name: 'connect-1'
     static_configs:
-      - targets: ['connect-1:9101']
+      - targets: ['connect-1:9105']
 
   - job_name: 'connect-2'
     static_configs:
-      - targets: ['connect-2:9102']
+      - targets: ['connect-2:9106']
 
   - job_name: 'connect-3'
     static_configs:
-      - targets: ['connect-3:9103']
+      - targets: ['connect-3:9107']
 
   - job_name: 'schema-registry'
     static_configs:
-      - targets: ['schema-registry:9181']
+      - targets: ['schema-registry:9185']

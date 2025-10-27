@@ -26,7 +26,7 @@ services:
       KAFKA_DELETE_TOPIC_ENABLE: "true"
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false" 
       # monitoring
-      KAFKA_JMX_PORT: 9997
+      KAFKA_JMX_PORT: 9998
       KAFKA_JMX_HOSTNAME: kafka-1
       KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote=true \
         -Dcom.sun.management.jmxremote.authenticate=false \
@@ -34,8 +34,11 @@ services:
         -Djava.rmi.server.hostname=kafka-1 \
         -Dcom.sun.management.jmxremote.port=9997 \
         -Dcom.sun.management.jmxremote.rmi.port=9997"
+      KAFKA_OPTS: >-
+        -javaagent:/opt/jmx-exporter/jmx_prometheus_javaagent-0.20.0.jar=9997:/opt/jmx-exporter/kafka.yml
     volumes:
       - ./data/kafka-1:/var/lib/kafka/data
+      - ./jmx-exporter:/opt/jmx-exporter 
 
   kafka-2:
     image: apache/kafka:4.1.0
@@ -62,7 +65,7 @@ services:
       KAFKA_DELETE_TOPIC_ENABLE: "true"
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false" 
       # monitoring
-      KAFKA_JMX_PORT: 9998
+      KAFKA_JMX_PORT: 9999
       KAFKA_JMX_HOSTNAME: kafka-2
       KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote=true \
         -Dcom.sun.management.jmxremote.authenticate=false \
@@ -70,8 +73,11 @@ services:
         -Djava.rmi.server.hostname=kafka-2 \
         -Dcom.sun.management.jmxremote.port=9998 \
         -Dcom.sun.management.jmxremote.rmi.port=9998"
+      KAFKA_OPTS: >-
+        -javaagent:/opt/jmx-exporter/jmx_prometheus_javaagent-0.20.0.jar=9998:/opt/jmx-exporter/kafka.yml
     volumes:
       - ./data/kafka-2:/var/lib/kafka/data
+      - ./jmx-exporter:/opt/jmx-exporter
 
   kafka-3:
     image: apache/kafka:4.1.0
@@ -98,7 +104,7 @@ services:
       KAFKA_DELETE_TOPIC_ENABLE: "true"
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false" 
       # monitoring
-      KAFKA_JMX_PORT: 9998
+      KAFKA_JMX_PORT: 1000
       KAFKA_JMX_HOSTNAME: kafka-3
       KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote=true \
         -Dcom.sun.management.jmxremote.authenticate=false \
@@ -106,8 +112,11 @@ services:
         -Djava.rmi.server.hostname=kafka-3 \
         -Dcom.sun.management.jmxremote.port=9999 \
         -Dcom.sun.management.jmxremote.rmi.port=9999"
+      KAFKA_OPTS: >-
+        -javaagent:/opt/jmx-exporter/jmx_prometheus_javaagent-0.20.0.jar=9999:/opt/jmx-exporter/kafka.yml
     volumes:
       - ./data/kafka-3:/var/lib/kafka/data
+      - ./jmx-exporter:/opt/jmx-exporter
 
 
   schema-registry:
@@ -120,22 +129,21 @@ services:
       - kafka-3
     ports:
       - 8081:8081
-      - 9181:9181
+      - 9185:9185
     environment:
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka-1:19092,PLAINTEXT://kafka-2:19092,PLAINTEXT://kafka-3:19092
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
       # monitoring
       JMX_PORT: 9181
-      KAFKA_JMX_HOSTNAME: schema-registry
-      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote=true \
-        -Dcom.sun.management.jmxremote.authenticate=false \
-        -Dcom.sun.management.jmxremote.ssl=false \
-        -Djava.rmi.server.hostname=schema-registry \
-        -Dcom.sun.management.jmxremote.port=9181 \
-        -Dcom.sun.management.jmxremote.rmi.port=9181"
+      SCHEMA_REGISTRY_JMX_OPTS: >-
+        -Dcom.sun.management.jmxremote.authenticate=false
+        -Dcom.sun.management.jmxremote.ssl=false
+        -javaagent:/opt/jmx-exporter/jmx_prometheus_javaagent-0.20.0.jar=9185:/opt/jmx-exporter/kafka.yml
+
     volumes:
       - ./data/schema-registry:/var/lib/schema-registry
+      - ./jmx-exporter:/opt/jmx-exporter
 
   connect-1:
     image: confluentinc/cp-kafka-connect:7.5.3
@@ -149,7 +157,7 @@ services:
       - schema-registry
     ports:
       - 8083:8083
-      - 9101:9101
+      - 9105:9105
     environment:
       CONNECT_BOOTSTRAP_SERVERS: kafka-1:19092,kafka-2:19092,kafka-3:19092
       CONNECT_REST_ADVERTISED_HOST_NAME: connect-1
@@ -190,9 +198,13 @@ services:
         -Djava.rmi.server.hostname=connect-1 \
         -Dcom.sun.management.jmxremote.port=9101 \
         -Dcom.sun.management.jmxremote.rmi.port=9101"
+      KAFKA_OPTS: >-
+        -javaagent:/opt/jmx-exporter/jmx_prometheus_javaagent-0.20.0.jar=9105:/opt/jmx-exporter/kafka.yml
+
 
     volumes:
       - ./plugins:/etc/kafka-connect/plugins
+      - ./jmx-exporter:/opt/jmx-exporter
 
   connect-2:
     image: confluentinc/cp-kafka-connect:7.5.3
@@ -206,7 +218,7 @@ services:
       - schema-registry
     ports:
       - 8084:8084
-      - 9102:9102
+      - 9106:9106
     environment:
       CONNECT_BOOTSTRAP_SERVERS: kafka-1:19092,kafka-2:19092,kafka-3:19092
       CONNECT_REST_ADVERTISED_HOST_NAME: connect-2
@@ -247,8 +259,12 @@ services:
         -Djava.rmi.server.hostname=connect-2 \
         -Dcom.sun.management.jmxremote.port=9102 \
         -Dcom.sun.management.jmxremote.rmi.port=9102"
+      KAFKA_OPTS: >-
+        -javaagent:/opt/jmx-exporter/jmx_prometheus_javaagent-0.20.0.jar=9106:/opt/jmx-exporter/kafka.yml
+ 
     volumes:
       - ./plugins:/etc/kafka-connect/plugins
+      - ./jmx-exporter:/opt/jmx-exporter
 
   connect-3:
     image: confluentinc/cp-kafka-connect:7.5.3
@@ -262,7 +278,7 @@ services:
       - schema-registry
     ports:
       - 8085:8085
-      - 9103:9103
+      - 9107:9107
     environment:
       CONNECT_BOOTSTRAP_SERVERS: kafka-1:19092,kafka-2:19092,kafka-3:19092
       CONNECT_REST_ADVERTISED_HOST_NAME: connect-3
@@ -303,9 +319,13 @@ services:
         -Djava.rmi.server.hostname=connect-3 \
         -Dcom.sun.management.jmxremote.port=9103 \
         -Dcom.sun.management.jmxremote.rmi.port=9103"
+      KAFKA_OPTS: >-
+        -javaagent:/opt/jmx-exporter/jmx_prometheus_javaagent-0.20.0.jar=9107:/opt/jmx-exporter/kafka.yml
+
 
     volumes:
       - ./plugins:/etc/kafka-connect/plugins
+      - ./jmx-exporter:/opt/jmx-exporter
 
   prometheus:
     image: prom/prometheus
