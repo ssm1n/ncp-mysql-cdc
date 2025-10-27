@@ -7,6 +7,7 @@ services:
     container_name: kafka-1
     ports:
       - 29092:9092
+      - 9997:9997
     environment:
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
@@ -24,6 +25,15 @@ services:
       KAFKA_LOG_DIRS: /var/lib/kafka/data
       KAFKA_DELETE_TOPIC_ENABLE: "true"
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false" 
+      # monitoring
+      KAFKA_JMX_PORT: 9997
+      KAFKA_JMX_HOSTNAME: kafka-1
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote=true \
+        -Dcom.sun.management.jmxremote.authenticate=false \
+        -Dcom.sun.management.jmxremote.ssl=false \
+        -Djava.rmi.server.hostname=kafka-1 \
+        -Dcom.sun.management.jmxremote.port=9997 \
+        -Dcom.sun.management.jmxremote.rmi.port=9997"
     volumes:
       - ./data/kafka-1:/var/lib/kafka/data
 
@@ -33,6 +43,7 @@ services:
     container_name: kafka-2
     ports:
       - 39092:9092
+      - 9998:9998
     environment:
       KAFKA_NODE_ID: 2
       KAFKA_PROCESS_ROLES: broker,controller
@@ -50,6 +61,15 @@ services:
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_DELETE_TOPIC_ENABLE: "true"
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false" 
+      # monitoring
+      KAFKA_JMX_PORT: 9998
+      KAFKA_JMX_HOSTNAME: kafka-2
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote=true \
+        -Dcom.sun.management.jmxremote.authenticate=false \
+        -Dcom.sun.management.jmxremote.ssl=false \
+        -Djava.rmi.server.hostname=kafka-2 \
+        -Dcom.sun.management.jmxremote.port=9998 \
+        -Dcom.sun.management.jmxremote.rmi.port=9998"
     volumes:
       - ./data/kafka-2:/var/lib/kafka/data
 
@@ -59,6 +79,7 @@ services:
     container_name: kafka-3
     ports:
       - 49092:9092
+      - 9999:9999
     environment:
       KAFKA_NODE_ID: 3
       KAFKA_PROCESS_ROLES: broker,controller
@@ -76,6 +97,15 @@ services:
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_DELETE_TOPIC_ENABLE: "true"
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false" 
+      # monitoring
+      KAFKA_JMX_PORT: 9998
+      KAFKA_JMX_HOSTNAME: kafka-3
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote=true \
+        -Dcom.sun.management.jmxremote.authenticate=false \
+        -Dcom.sun.management.jmxremote.ssl=false \
+        -Djava.rmi.server.hostname=kafka-3 \
+        -Dcom.sun.management.jmxremote.port=9999 \
+        -Dcom.sun.management.jmxremote.rmi.port=9999"
     volumes:
       - ./data/kafka-3:/var/lib/kafka/data
 
@@ -89,11 +119,21 @@ services:
       - kafka-2
       - kafka-3
     ports:
-      - "8081:8081"
+      - 8081:8081
+      - 9181:9181
     environment:
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka-1:19092,PLAINTEXT://kafka-2:19092,PLAINTEXT://kafka-3:19092
       SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      # monitoring
+      JMX_PORT: 9181
+      KAFKA_JMX_HOSTNAME: schema-registry
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote=true \
+        -Dcom.sun.management.jmxremote.authenticate=false \
+        -Dcom.sun.management.jmxremote.ssl=false \
+        -Djava.rmi.server.hostname=schema-registry \
+        -Dcom.sun.management.jmxremote.port=9181 \
+        -Dcom.sun.management.jmxremote.rmi.port=9181"
     volumes:
       - ./data/schema-registry:/var/lib/schema-registry
 
@@ -109,6 +149,7 @@ services:
       - schema-registry
     ports:
       - 8083:8083
+      - 9101:9101
     environment:
       CONNECT_BOOTSTRAP_SERVERS: kafka-1:19092,kafka-2:19092,kafka-3:19092
       CONNECT_REST_ADVERTISED_HOST_NAME: connect-1
@@ -140,6 +181,16 @@ services:
       CONNECT_RETRIES: 2147483647
       CONNECT_RETRY_BACKOFF_MS: 10000
 
+      # monitoring
+      JMX_PORT: 9101
+      KAFKA_JMX_HOSTNAME: connect-1
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote=true \
+        -Dcom.sun.management.jmxremote.authenticate=false \
+        -Dcom.sun.management.jmxremote.ssl=false \
+        -Djava.rmi.server.hostname=connect-1 \
+        -Dcom.sun.management.jmxremote.port=9101 \
+        -Dcom.sun.management.jmxremote.rmi.port=9101"
+
     volumes:
       - ./plugins:/etc/kafka-connect/plugins
 
@@ -155,6 +206,7 @@ services:
       - schema-registry
     ports:
       - 8084:8084
+      - 9102:9102
     environment:
       CONNECT_BOOTSTRAP_SERVERS: kafka-1:19092,kafka-2:19092,kafka-3:19092
       CONNECT_REST_ADVERTISED_HOST_NAME: connect-2
@@ -186,6 +238,15 @@ services:
       CONNECT_RETRIES: 2147483647
       CONNECT_RETRY_BACKOFF_MS: 10000
 
+      # monitoring
+      JMX_PORT: 9102
+      KAFKA_JMX_HOSTNAME: connect-2
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote=true \
+        -Dcom.sun.management.jmxremote.authenticate=false \
+        -Dcom.sun.management.jmxremote.ssl=false \
+        -Djava.rmi.server.hostname=connect-2 \
+        -Dcom.sun.management.jmxremote.port=9102 \
+        -Dcom.sun.management.jmxremote.rmi.port=9102"
     volumes:
       - ./plugins:/etc/kafka-connect/plugins
 
@@ -201,6 +262,7 @@ services:
       - schema-registry
     ports:
       - 8085:8085
+      - 9103:9103
     environment:
       CONNECT_BOOTSTRAP_SERVERS: kafka-1:19092,kafka-2:19092,kafka-3:19092
       CONNECT_REST_ADVERTISED_HOST_NAME: connect-3
@@ -232,5 +294,43 @@ services:
       CONNECT_RETRIES: 2147483647
       CONNECT_RETRY_BACKOFF_MS: 10000
 
+      # monitoring
+      JMX_PORT: 9103
+      KAFKA_JMX_HOSTNAME: connect-3
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote=true \
+        -Dcom.sun.management.jmxremote.authenticate=false \
+        -Dcom.sun.management.jmxremote.ssl=false \
+        -Djava.rmi.server.hostname=connect-3 \
+        -Dcom.sun.management.jmxremote.port=9103 \
+        -Dcom.sun.management.jmxremote.rmi.port=9103"
+
     volumes:
       - ./plugins:/etc/kafka-connect/plugins
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus:/etc/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    depends_on:
+      - kafka-1
+      - kafka-2
+      - kafka-3
+      - connect-1
+      - connect-2
+      - connect-3
+      - schema-registry
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana:/var/lib/grafana
+    depends_on:
+      - prometheus
