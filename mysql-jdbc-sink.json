@@ -6,9 +6,9 @@
 
     "topics": "mysqlserver1.cdc-sdb.customers",
 
-    "connection.url": "jdbc:mysql://db-38i24b.vpc-cdb.ntruss.com:3306/test-tdb",
-    "connection.user": "nb61276",
-    "connection.password": "ic2281**00",
+    "connection.url": "${env:MYSQL_SINK_URL}",
+    "connection.user": "${env:MYSQL_SINK_USER}",
+    "connection.password": "${env:MYSQL_SINK_PASSWORD}",
 
     "auto.create": "false",
     "auto.evolve": "false",
