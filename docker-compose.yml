@@ -182,6 +182,7 @@ services:
       CONNECT_ERRORS_RETRY_TIMEOUT: -1
       CONNECT_RETRIES: 2147483647
       CONNECT_RETRY_BACKOFF_MS: 10000
+      CONNECT_EXACTLY_ONCE_SOURCE_SUPPORT: enabled
 
     volumes:
       - ./plugins:/etc/kafka-connect/plugins
@@ -230,6 +231,7 @@ services:
       CONNECT_ERRORS_RETRY_TIMEOUT: -1
       CONNECT_RETRIES: 2147483647
       CONNECT_RETRY_BACKOFF_MS: 10000
+      CONNECT_EXACTLY_ONCE_SOURCE_SUPPORT: enabled
 
     volumes:
       - ./plugins:/etc/kafka-connect/plugins
@@ -278,6 +280,7 @@ services:
       CONNECT_ERRORS_RETRY_TIMEOUT: -1
       CONNECT_RETRIES: 2147483647
       CONNECT_RETRY_BACKOFF_MS: 10000
+      CONNECT_EXACTLY_ONCE_SOURCE_SUPPORT: enabled
 
     volumes:
       - ./plugins:/etc/kafka-connect/plugins

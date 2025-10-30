@@ -28,7 +28,8 @@
     "transforms.drop.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
     "transforms.drop.blacklist": "source,ts_ms,op,transaction,__deleted",
 
-    "consumer.override.auto.offset.reset": "earliest"
+    "consumer.override.auto.offset.reset": "earliest",
+    "consumer.override.isolation.level": "read_committed"
   }
 }
 
