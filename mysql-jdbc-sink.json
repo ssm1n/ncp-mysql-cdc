@@ -26,7 +26,9 @@
     "table.name.format": "test-tdb.${topic}",
     "delete.enabled": "true",
     "transforms.drop.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
-    "transforms.drop.blacklist": "source,ts_ms,op,transaction,__deleted"
+    "transforms.drop.blacklist": "source,ts_ms,op,transaction,__deleted",
+
+    "consumer.override.auto.offset.reset": "earliest"
   }
 }
 
