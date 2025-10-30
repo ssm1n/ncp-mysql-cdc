@@ -10,3 +10,15 @@ data/
 # Secrets
 .env
 *.password
+
+# Prometheus
+prometheus/data/
+prometheus/*.wal
+prometheus/*.db
+
+# Grafana
+grafana/data/
+grafana/grafana.db
+grafana/plugins/
+grafana/.env
+grafana/provisioning/datasources/*.yaml
