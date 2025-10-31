@@ -37,7 +37,9 @@
     "errors.deadletterqueue.topic.replication.factor": "3",
 
     "errors.log.enable": "true",
-    "errors.log.include.messages": "true"
+    "errors.log.include.messages": "true",
+    "errors.retry.timeout": "600000",
+    "errors.retry.delay.max.ms": "30000"
   }
 }
 
