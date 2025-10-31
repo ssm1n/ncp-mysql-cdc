@@ -29,7 +29,15 @@
     "transforms.drop.blacklist": "source,ts_ms,op,transaction,__deleted",
 
     "consumer.override.auto.offset.reset": "earliest",
-    "consumer.override.isolation.level": "read_committed"
+    "consumer.override.isolation.level": "read_committed",
+
+    "errors.tolerance": "all",
+    "errors.deadletterqueue.topic.name": "connect-dead-letter-queue",
+    "errors.deadletterqueue.context.headers.enable": "true",
+    "errors.deadletterqueue.topic.replication.factor": "3",
+
+    "errors.log.enable": "true",
+    "errors.log.include.messages": "true"
   }
 }
 
