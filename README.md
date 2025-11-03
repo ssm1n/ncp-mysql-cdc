@@ -29,3 +29,9 @@ Source MySQL (Cloud DB for MySQL)
 - **Infrastructure**
   - Docker Compose
   - NCP VPC
+
+### 참고 자료
+https://kafka.apache.org/documentation/#gettingStarted
+https://debezium.io/documentation/reference/stable/connectors/mysql.html
+https://docs.confluent.io/kafka-connectors/jdbc/current/sink-connector/overview.html
+https://docs.confluent.io/platform/current/schema-registry/index.html
