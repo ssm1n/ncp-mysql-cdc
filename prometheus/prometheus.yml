@@ -31,6 +31,5 @@ scrape_configs:
       - targets: ['schema-registry:9185']
 
   - job_name: 'kafka-exporter'
-    scrape_interval: 15s
     static_configs:
       - targets: ['kafka-exporter:9308']
