@@ -1,0 +1,45 @@
+{
+  "name": "mysql-jdbc-sink",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+    "tasks.max": "1",
+
+    "topics": "mysqlserver1.cdc-sdb.customers",
+
+    "connection.url": "${env:MYSQL_SINK_URL}",
+    "connection.user": "${env:MYSQL_SINK_USER}",
+    "connection.password": "${env:MYSQL_SINK_PASSWORD}",
+
+    "auto.create": "false",
+    "auto.evolve": "false",
+
+    "insert.mode": "upsert",
+    "pk.mode": "record_key",
+    "pk.fields": "id",
+
+    "key.converter": "io.confluent.connect.avro.AvroConverter",
+    "value.converter": "io.confluent.connect.avro.AvroConverter",
+    "key.converter.schema.registry.url": "http://schema-registry:8081",
+    "value.converter.schema.registry.url": "http://schema-registry:8081",
+
+    "transforms": "drop",
+    "table.name.format": "test-tdb.${topic}",
+    "delete.enabled": "true",
+    "transforms.drop.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
+    "transforms.drop.blacklist": "source,ts_ms,op,transaction,__deleted",
+
+    "consumer.override.auto.offset.reset": "earliest",
+    "consumer.override.isolation.level": "read_committed",
+
+    "errors.tolerance": "all",
+    "errors.deadletterqueue.topic.name": "connect-dead-letter-queue",
+    "errors.deadletterqueue.context.headers.enable": "true",
+    "errors.deadletterqueue.topic.replication.factor": "3",
+
+    "errors.log.enable": "true",
+    "errors.log.include.messages": "true",
+    "errors.retry.timeout": "600000",
+    "errors.retry.delay.max.ms": "30000"
+  }
+}
+
