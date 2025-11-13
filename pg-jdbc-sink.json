@@ -1,0 +1,45 @@
+{
+  "name": "pg-jdbc-sink",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+    "tasks.max": "1",
+
+    "topics": "mysqlserver1.cdc-sdb.customers",
+    "dialect.name": "PostgreSqlDatabaseDialect",
+    "table.name.format": "test.${topic}",
+
+    "connection.url": "${env:MYSQL_SINK_PG_URL}",
+    "connection.user": "${env:MYSQL_SINK_PG_USER}",
+    "connection.password": "${env:MYSQL_SINK_PG_PASSWORD}",
+
+    "insert.mode": "upsert",
+    "pk.mode": "record_key",
+    "pk.fields": "id",
+
+    "auto.create": "true",
+    "auto.evolve": "true",
+    "delete.enabled": "true",
+
+    "date.timezone": "UTC",
+
+    "consumer.override.isolation.level": "read_committed",
+    "consumer.override.auto.offset.reset": "earliest",
+
+    "errors.tolerance": "all",
+    "errors.deadletterqueue.topic.name": "connect-dead-letter-queue-pg",
+    "errors.log.enable": "true",
+    "errors.log.include.messages": "true",
+
+    "value.converter": "io.confluent.connect.avro.AvroConverter",
+    "value.converter.schema.registry.url": "http://schema-registry:8081",
+    "value.converter.auto.register.schemas": "true",
+    "value.converter.connect.meta.data": "false",
+
+    "key.converter": "io.confluent.connect.avro.AvroConverter",
+    "key.converter.schema.registry.url": "http://schema-registry:8081",
+    "key.converter.auto.register.schemas": "false",
+
+    "quote.sql.identifiers": "always",
+    "auto.restart.on.user.error": "true"
+  }
+}

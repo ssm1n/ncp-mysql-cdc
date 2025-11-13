@@ -12,7 +12,7 @@
     "database.server.id": "5400",
     "database.server.name": "mysqlserver1",
     "database.include.list": "cdc-sdb",
-    "table.include.list": "cdc-sdb.customers",
+    "table.include.list": "cdc-sdb.customers,cdc-sdb.sbtest1,cdc-sdb.sbtest2",
 
     "schema.history.internal.kafka.bootstrap.servers": "kafka-1:19092,kafka-2:19092,kafka-3:19092",
     "schema.history.internal.kafka.topic": "schema-changes.mysqlserver1",

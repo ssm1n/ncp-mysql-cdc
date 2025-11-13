@@ -4,7 +4,7 @@
     "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
     "tasks.max": "1",
 
-    "topics": "mysqlserver1.cdc-sdb.customers",
+    "topics": "mysqlserver1.cdc-sdb.customers,mysqlserver1.cdc-sdb.sbtest1,mysqlserver1.cdc-sdb.sbtest2",
 
     "connection.url": "${env:MYSQL_SINK_URL}",
     "connection.user": "${env:MYSQL_SINK_USER}",

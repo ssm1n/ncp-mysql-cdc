@@ -36,9 +36,10 @@ services:
         -Djava.rmi.server.hostname=kafka-1 \
         -Dcom.sun.management.jmxremote.port=9997 \
         -Dcom.sun.management.jmxremote.rmi.port=9997"
-      KAFKA_OPTS: >-
-        -javaagent:/opt/jmx-exporter/jmx_prometheus_javaagent-0.20.0.jar=9997:/opt/jmx-exporter/kafka.yml
-
+    #  KAFKA_OPTS: >-
+    #    -javaagent:/opt/jmx-exporter/jmx_prometheus_javaagent-0.20.0.jar=9997:/opt/jmx-exporter/kafka.yml
+ 
+      EXTRA_ARGS: "-Dcom.sun.management.jmxremote=false"
     volumes:
       - ./data/kafka-1:/var/lib/kafka/data
       - ./jmx-exporter:/opt/jmx-exporter 
@@ -79,8 +80,9 @@ services:
         -Djava.rmi.server.hostname=kafka-2 \
         -Dcom.sun.management.jmxremote.port=9998 \
         -Dcom.sun.management.jmxremote.rmi.port=9998"
-      KAFKA_OPTS: >-
-        -javaagent:/opt/jmx-exporter/jmx_prometheus_javaagent-0.20.0.jar=9998:/opt/jmx-exporter/kafka.yml
+    #  KAFKA_OPTS: >-
+    #    -javaagent:/opt/jmx-exporter/jmx_prometheus_javaagent-0.20.0.jar=9998:/opt/jmx-exporter/kafka.yml
+      EXTRA_ARGS: "-Dcom.sun.management.jmxremote=false" 
 
     volumes:
       - ./data/kafka-2:/var/lib/kafka/data
@@ -122,8 +124,9 @@ services:
         -Djava.rmi.server.hostname=kafka-3 \
         -Dcom.sun.management.jmxremote.port=9999 \
         -Dcom.sun.management.jmxremote.rmi.port=9999"
-      KAFKA_OPTS: >-
-        -javaagent:/opt/jmx-exporter/jmx_prometheus_javaagent-0.20.0.jar=9999:/opt/jmx-exporter/kafka.yml
+   #   KAFKA_OPTS: >-
+   #     -javaagent:/opt/jmx-exporter/jmx_prometheus_javaagent-0.20.0.jar=9999:/opt/jmx-exporter/kafka.yml
+      EXTRA_ARGS: "-Dcom.sun.management.jmxremote=false" 
 
     volumes:
       - ./data/kafka-3:/var/lib/kafka/data
