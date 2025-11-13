@@ -1,5 +1,5 @@
 ### 프로젝트 개요
-Apache Kafka 기반 NCP MySQL CDC 파이프라인 구축 프로젝트입니다.
+Apache Kafka 기반 NCP DB CDC 파이프라인 구축 프로젝트입니다.
 
 ### 파이프라인 구성
 본 프로젝트의 CDC 파이프라인 구성은 다음과 같습니다.
@@ -9,12 +9,13 @@ Source MySQL (Cloud DB for MySQL)
  → Debezium MySQL Source (snapshot: initial → CDC)
  → Apache Kafka (schema-registry)
  → Kafka Connect JDBC Sink 
- → Target MySQL (Cloud DB for MySQL)
+ → Target MySQL (Cloud DB for MySQL) or PostgreSQL (Cloud DB for PostgreSQL)
 ```
 
 ### 기술 스택 
 - **Database**
   - NCP Cloud DB for MySQL (Source/Target)
+  - NCP Cloud DB for PostgreSQL (Target)
 - **Messaging**
   - Apache Kafka 4.1.0 (Kraft Mode)
   - Kafka Connect 7.5.3
