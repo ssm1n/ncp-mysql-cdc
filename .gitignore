@@ -22,3 +22,6 @@ grafana/grafana.db
 grafana/plugins/
 grafana/.env
 grafana/provisioning/datasources/*.yaml
+
+# sql
+dump.sql

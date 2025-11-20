@@ -4,7 +4,7 @@
     "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
     "tasks.max": "1",
 
-    "topics": "mysqlserver1.cdc-sdb.customers,mysqlserver1.cdc-sdb.sbtest1,mysqlserver1.cdc-sdb.sbtest2",
+    "topics": "mysqlserver1.cdc-sdb.customers",
 
     "connection.url": "${env:MYSQL_SINK_URL}",
     "connection.user": "${env:MYSQL_SINK_USER}",
@@ -12,7 +12,7 @@
 
     "auto.create": "false",
     "auto.evolve": "false",
-
+    "delete.enabled": "true",
     "insert.mode": "upsert",
     "pk.mode": "record_key",
     "pk.fields": "id",
@@ -22,14 +22,21 @@
     "key.converter.schema.registry.url": "http://schema-registry:8081",
     "value.converter.schema.registry.url": "http://schema-registry:8081",
 
-    "transforms": "drop",
-    "table.name.format": "test-tdb.${topic}",
-    "delete.enabled": "true",
-    "transforms.drop.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
-    "transforms.drop.blacklist": "source,ts_ms,op,transaction,__deleted",
+    "table.name.format": "customers",
+
 
     "consumer.override.auto.offset.reset": "earliest",
     "consumer.override.isolation.level": "read_committed",
+    
+    "transforms": "drop,convertTS",
+
+    "transforms.drop.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
+    "transforms.drop.blacklist": "source,ts_ms,op,transaction,__deleted",
+
+    "transforms.convertTS.type": "org.apache.kafka.connect.transforms.TimestampConverter$Value",
+    "transforms.convertTS.field": "created_at",
+    "transforms.convertTS.target.type": "Timestamp",
+    "transforms.convertTS.format": "yyyy-MM-dd HH:mm:ss",
 
     "errors.tolerance": "all",
     "errors.deadletterqueue.topic.name": "connect-dead-letter-queue",

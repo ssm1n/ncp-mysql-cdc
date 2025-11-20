@@ -6,7 +6,7 @@
 
     "topics": "mysqlserver1.cdc-sdb.customers",
     "dialect.name": "PostgreSqlDatabaseDialect",
-    "table.name.format": "test.${topic}",
+    "table.name.format": "cdc-sdb.customers",
 
     "connection.url": "${env:MYSQL_SINK_PG_URL}",
     "connection.user": "${env:MYSQL_SINK_PG_USER}",
@@ -40,6 +40,11 @@
     "key.converter.auto.register.schemas": "false",
 
     "quote.sql.identifiers": "always",
-    "auto.restart.on.user.error": "true"
+    "auto.restart.on.user.error": "true",
+
+    "transforms": "ts",
+    "transforms.ts.type": "org.apache.kafka.connect.transforms.TimestampConverter$Value",
+    "transforms.ts.target.type": "Timestamp",
+    "transforms.ts.field": "created_at"
   }
 }
