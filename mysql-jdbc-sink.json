@@ -10,24 +10,23 @@
     "connection.user": "${env:MYSQL_SINK_USER}",
     "connection.password": "${env:MYSQL_SINK_PASSWORD}",
 
-    "auto.create": "false",
-    "auto.evolve": "false",
+    "auto.create": "true",
+    "auto.evolve": "true",
     "delete.enabled": "true",
     "insert.mode": "upsert",
     "pk.mode": "record_key",
     "pk.fields": "id",
+
+    "table.name.format": "customers",
 
     "key.converter": "io.confluent.connect.avro.AvroConverter",
     "value.converter": "io.confluent.connect.avro.AvroConverter",
     "key.converter.schema.registry.url": "http://schema-registry:8081",
     "value.converter.schema.registry.url": "http://schema-registry:8081",
 
-    "table.name.format": "customers",
-
-
     "consumer.override.auto.offset.reset": "earliest",
     "consumer.override.isolation.level": "read_committed",
-    
+
     "transforms": "drop,convertTS",
 
     "transforms.drop.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
