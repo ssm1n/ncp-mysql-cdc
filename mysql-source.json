@@ -24,8 +24,7 @@
     "transforms.unwrap.delete.handling.mode": "rewrite",
     "transforms.unwrap.drop.tombstones": "false",
 
-    "exactly.once.source.support": "required",
-    "schema.history.internal.recovery.enabled": "true",
+    "exactly.once.source.support": "required"
   }
 }
 
