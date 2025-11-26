@@ -20,22 +20,33 @@
     "auto.evolve": "true",
     "delete.enabled": "true",
 
-    "date.timezone": "UTC",
-
     "consumer.override.isolation.level": "read_committed",
     "consumer.override.auto.offset.reset": "earliest",
 
     "errors.tolerance": "all",
     "errors.deadletterqueue.topic.name": "connect-dead-letter-queue-pg",
+    "errors.deadletterqueue.context.headers.enable": "true",
     "errors.log.enable": "true",
     "errors.log.include.messages": "true",
 
     "quote.sql.identifiers": "always",
     "auto.restart.on.user.error": "true",
 
-    "transforms": "ts",
-    "transforms.ts.type": "org.apache.kafka.connect.transforms.TimestampConverter$Value",
-    "transforms.ts.target.type": "Timestamp",
-    "transforms.ts.field": "created_at"
+    "transforms": "convertTS,convertDT,convertDT2",
+
+    "transforms.convertTS.type": "org.apache.kafka.connect.transforms.TimestampConverter$Value",
+    "transforms.convertTS.target.type": "Timestamp",
+    "transforms.convertTS.field": "test_ts",
+    "transforms.convertTS.format": "yyyy-MM-dd'T'HH:mm:ss'Z'",
+
+    "transforms.convertDT.type": "org.apache.kafka.connect.transforms.TimestampConverter$Value",
+    "transforms.convertDT.field": "test_dt",
+    "transforms.convertDT.target.type": "Timestamp",
+    "transforms.convertDT.format": "yyyy-MM-dd'T'HH:mm:ss'Z'",
+
+    "transforms.convertDT2.type": "org.apache.kafka.connect.transforms.TimestampConverter$Value",
+    "transforms.convertDT2.field": "test_dt_2",
+    "transforms.convertDT2.target.type": "Timestamp",
+    "transforms.convertDT2.format": "yyyy-MM-dd'T'HH:mm:ss'Z'"
   }
 }
