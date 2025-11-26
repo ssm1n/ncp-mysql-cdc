@@ -22,15 +22,20 @@
     "consumer.override.auto.offset.reset": "earliest",
     "consumer.override.isolation.level": "read_committed",
 
-    "transforms": "drop,convertTS",
+    "transforms": "drop,convertTS,convertDT",
 
     "transforms.drop.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
     "transforms.drop.blacklist": "source,ts_ms,op,transaction,__deleted",
 
     "transforms.convertTS.type": "org.apache.kafka.connect.transforms.TimestampConverter$Value",
-    "transforms.convertTS.field": "created_at",
+    "transforms.convertTS.field": "test_ts",
     "transforms.convertTS.target.type": "Timestamp",
-    "transforms.convertTS.format": "yyyy-MM-dd HH:mm:ss",
+    "transforms.convertTS.format": "yyyy-MM-dd'T'HH:mm:ss'Z'",
+
+    "transforms.convertDT.type": "org.apache.kafka.connect.transforms.TimestampConverter$Value",
+    "transforms.convertDT.target.type": "string",
+    "transforms.convertDT.field": "test_dt",
+    "transforms.convertDT.format": "yyyy-MM-dd HH:mm:ss",
 
     "errors.tolerance": "all",
     "errors.deadletterqueue.topic.name": "connect-dead-letter-queue",
@@ -39,7 +44,9 @@
     "errors.log.enable": "true",
     "errors.log.include.messages": "true",
     "errors.retry.timeout": "600000",
-    "errors.retry.delay.max.ms": "30000"
+    "errors.retry.delay.max.ms": "30000",
+
+    "db.timezone": "Asia/Seoul"
   }
 }
 
