@@ -43,8 +43,7 @@
 
     "errors.log.enable": "true",
     "errors.log.include.messages": "true",
-    "errors.retry.timeout": "600000",
-    "errors.retry.delay.max.ms": "30000",
+    "errors.retry.timeout": "-1",
 
     "db.timezone": "Asia/Seoul"
   }
