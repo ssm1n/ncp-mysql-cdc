@@ -4,9 +4,10 @@
     "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
     "tasks.max": "1",
 
-    "topics": "mysqlserver1.cdc-sdb.customers",
+    "topics.regex": "mysqlserver1\\.cdc-sdb\\..+",
+
     "dialect.name": "PostgreSqlDatabaseDialect",
-    "table.name.format": "cdc-sdb.customers",
+    "table.name.format": "${topic}",
 
     "connection.url": "${env:MYSQL_SINK_PG_URL}",
     "connection.user": "${env:MYSQL_SINK_PG_USER}",
@@ -23,16 +24,10 @@
     "consumer.override.isolation.level": "read_committed",
     "consumer.override.auto.offset.reset": "earliest",
 
-    "errors.tolerance": "all",
-    "errors.deadletterqueue.topic.name": "connect-dead-letter-queue-pg",
-    "errors.deadletterqueue.context.headers.enable": "true",
-    "errors.log.enable": "true",
-    "errors.log.include.messages": "true",
-
     "quote.sql.identifiers": "always",
     "auto.restart.on.user.error": "true",
 
-    "transforms": "convertTS,convertDT",
+    "transforms": "convertTS,convertDT,router",
 
     "transforms.convertTS.type": "org.apache.kafka.connect.transforms.TimestampConverter$Value",
     "transforms.convertTS.target.type": "Timestamp",
@@ -42,6 +37,16 @@
     "transforms.convertDT.type": "org.apache.kafka.connect.transforms.TimestampConverter$Value",
     "transforms.convertDT.field": "test_dt",
     "transforms.convertDT.target.type": "Timestamp",
-    "transforms.convertDT.format": "yyyy-MM-dd'T'HH:mm:ss'Z'"
+    "transforms.convertDT.format": "yyyy-MM-dd'T'HH:mm:ss'Z'",
+
+    "transforms.router.type": "org.apache.kafka.connect.transforms.RegexRouter",
+    "transforms.router.regex": ".*\\.([^\\.]+)$",
+    "transforms.router.replacement": "$1",
+
+    "errors.tolerance": "all",
+    "errors.deadletterqueue.topic.name": "connect-dead-letter-queue-pg",
+    "errors.deadletterqueue.context.headers.enable": "true",
+    "errors.log.enable": "true",
+    "errors.log.include.messages": "true"
   }
 }

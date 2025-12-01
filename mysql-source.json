@@ -3,7 +3,7 @@
   "config": {
     "connector.class": "io.debezium.connector.mysql.MySqlConnector",
     "topic.prefix": "mysqlserver1",
-    "snapshot.mode": "recovery",
+    "snapshot.mode": "initial",
 
     "database.hostname": "${env:MYSQL_HOST}",
     "database.port": "${env:MYSQL_PORT}",
