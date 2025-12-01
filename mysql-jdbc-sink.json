@@ -4,42 +4,48 @@
     "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
     "tasks.max": "1",
 
-    "topics": "mysqlserver1.cdc-sdb.customers,mysqlserver1.cdc-sdb.sbtest1,mysqlserver1.cdc-sdb.sbtest2",
+    "topics": "mysqlserver1.cdc-sdb.customers",
 
     "connection.url": "${env:MYSQL_SINK_URL}",
     "connection.user": "${env:MYSQL_SINK_USER}",
     "connection.password": "${env:MYSQL_SINK_PASSWORD}",
 
-    "auto.create": "false",
-    "auto.evolve": "false",
-
+    "auto.create": "true",
+    "auto.evolve": "true",
+    "delete.enabled": "true",
     "insert.mode": "upsert",
     "pk.mode": "record_key",
     "pk.fields": "id",
 
-    "key.converter": "io.confluent.connect.avro.AvroConverter",
-    "value.converter": "io.confluent.connect.avro.AvroConverter",
-    "key.converter.schema.registry.url": "http://schema-registry:8081",
-    "value.converter.schema.registry.url": "http://schema-registry:8081",
-
-    "transforms": "drop",
-    "table.name.format": "test-tdb.${topic}",
-    "delete.enabled": "true",
-    "transforms.drop.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
-    "transforms.drop.blacklist": "source,ts_ms,op,transaction,__deleted",
+    "table.name.format": "customers",
 
     "consumer.override.auto.offset.reset": "earliest",
     "consumer.override.isolation.level": "read_committed",
 
+    "transforms": "drop,convertTS,convertDT",
+
+    "transforms.drop.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
+    "transforms.drop.blacklist": "source,ts_ms,op,transaction,__deleted",
+
+    "transforms.convertTS.type": "org.apache.kafka.connect.transforms.TimestampConverter$Value",
+    "transforms.convertTS.field": "test_ts",
+    "transforms.convertTS.target.type": "Timestamp",
+    "transforms.convertTS.format": "yyyy-MM-dd'T'HH:mm:ss'Z'",
+
+    "transforms.convertDT.type": "org.apache.kafka.connect.transforms.TimestampConverter$Value",
+    "transforms.convertDT.target.type": "string",
+    "transforms.convertDT.field": "test_dt",
+    "transforms.convertDT.format": "yyyy-MM-dd HH:mm:ss",
+
     "errors.tolerance": "all",
     "errors.deadletterqueue.topic.name": "connect-dead-letter-queue",
     "errors.deadletterqueue.context.headers.enable": "true",
-    "errors.deadletterqueue.topic.replication.factor": "3",
 
     "errors.log.enable": "true",
     "errors.log.include.messages": "true",
-    "errors.retry.timeout": "600000",
-    "errors.retry.delay.max.ms": "30000"
+    "errors.retry.timeout": "-1",
+
+    "db.timezone": "Asia/Seoul"
   }
 }
 
