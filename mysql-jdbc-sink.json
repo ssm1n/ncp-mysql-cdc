@@ -25,7 +25,7 @@
     "transforms": "drop,convertTS,convertDT,router",
 
     "transforms.drop.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
-    "transforms.drop.blacklist": "source,ts_ms,op,transaction,__deleted",
+    "transforms.drop.blacklist": "__deleted",
 
     "transforms.convertTS.type": "org.apache.kafka.connect.transforms.TimestampConverter$Value",
     "transforms.convertTS.field": "test_ts",

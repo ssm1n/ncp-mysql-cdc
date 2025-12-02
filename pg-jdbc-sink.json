@@ -27,7 +27,10 @@
     "quote.sql.identifiers": "always",
     "auto.restart.on.user.error": "true",
 
-    "transforms": "convertTS,convertDT,router",
+    "transforms": "drop,convertTS,convertDT,router",
+
+    "transforms.drop.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
+    "transforms.drop.blacklist": "__deleted",
 
     "transforms.convertTS.type": "org.apache.kafka.connect.transforms.TimestampConverter$Value",
     "transforms.convertTS.target.type": "Timestamp",
