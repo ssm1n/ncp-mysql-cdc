@@ -2,6 +2,8 @@
 Apache Kafka 기반 NCP DB CDC 파이프라인 구축 프로젝트입니다.
 
 ### 파이프라인 구성
+<img width="800" height="400" alt="image" src="https://github.com/user-attachments/assets/afcf5278-0a2f-42b8-9eeb-37457e800337" />
+
 본 프로젝트의 CDC 파이프라인 구성은 다음과 같습니다.
 
 ```
